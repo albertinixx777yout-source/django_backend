@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 import requests
 from django.conf import settings
 
+@login_required
 def index(request):
     try:
         response = requests.get(settings.API_URL)

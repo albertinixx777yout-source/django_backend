@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-pyme)7=axc5u!7=+o8*&=we6&q_fk61=$951#8$*p$rh=l%r0x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -133,3 +133,15 @@ STATICFILES_DIRS = [
 ]
 
 API_URL = 'https://jsonplaceholder.typicode.com/posts'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.app.github.dev",
+    "https://localhost:8000",
+    "http://127.0.0.1:8000"
+]
+
+# Fallo: acceso sin autenticación
+LOGIN_URL = '/login/'
+
+# Éxito: luego de autenticación exitosa
+LOGIN_REDIRECT_URL = '/'
