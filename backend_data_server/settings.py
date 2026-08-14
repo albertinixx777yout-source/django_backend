@@ -84,7 +84,7 @@ DATABASES = {
 }
 # Configuración MySQL (Comentada para que el profesor la vea, pero usamos SQLite para evitar errores de versión)
 
-/*
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -95,7 +95,7 @@ DATABASES = {
         'PORT': os.environ.get('MYSQLPORT', '3306'),
     }
 }
-*/
+'''
 
 
 # Password validation
