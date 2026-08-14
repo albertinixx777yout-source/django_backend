@@ -78,15 +78,6 @@ WSGI_APPLICATION = 'backend_data_server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-# Configuración MySQL (Comentada para que el profesor la vea, pero usamos SQLite para evitar errores de versión)
-
-'''
-DATABASES = {
-    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get('MYSQLDATABASE', 'security'),
         'USER': os.environ.get('MYSQLUSER', 'root'),
@@ -95,8 +86,6 @@ DATABASES = {
         'PORT': os.environ.get('MYSQLPORT', '3306'),
     }
 }
-'''
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
