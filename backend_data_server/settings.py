@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-pyme)7=axc5u!7=+o8*&=we6&q_fk61=$951#8$*p$rh=l%r0x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [".up.railway.app", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -141,6 +142,7 @@ STATICFILES_DIRS = [
 API_URL = 'https://jsonplaceholder.typicode.com/posts'
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://*.up.railway.app",
     "https://*.app.github.dev",
     "https://localhost:8000",
     "http://127.0.0.1:8000"
@@ -155,3 +157,6 @@ LOGIN_REDIRECT_URL = '/'
 # Parche para soportar XAMPP MariaDB antiguo en Django nuevo
 import django.db.backends.mysql.base
 django.db.backends.mysql.base.DatabaseWrapper.check_database_version_supported = lambda self: None
+
+STATIC_ROOT = BASE_DIR / 'assets'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
