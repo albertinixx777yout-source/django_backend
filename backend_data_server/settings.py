@@ -151,3 +151,7 @@ LOGIN_URL = '/login/'
 
 # Éxito: luego de autenticación exitosa
 LOGIN_REDIRECT_URL = '/'
+
+# Parche para soportar XAMPP MariaDB antiguo en Django nuevo
+import django.db.backends.mysql.base
+django.db.backends.mysql.base.DatabaseWrapper.check_database_version_supported = lambda self: None
