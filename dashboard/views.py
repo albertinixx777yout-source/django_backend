@@ -1,22 +1,19 @@
-from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render
 import requests
 from django.conf import settings
 
 def index(request):
     try:
-        # Intentamos consumir tu API local de Pagos
-        response = requests.get('http://127.0.0.1:8000/pagos', timeout=3)
-        pagos = response.json()
+        # Consumimos directamente tu API de produccion (en la nube)
+        response = requests.get('https://activelife-backend.fastapicloud.dev/pagos', timeout=5)
+        # Si todo va bien, los guardamos
+        if response.status_code == 200:
+            pagos = response.json()
+        else:
+            pagos = []
     except Exception:
-        # Datos mock en caso de que tu FastAPI este apagado
-        pagos = [
-            {"id": 1, "cliente": "Juan Perez", "monto": 100, "fecha": "2026-08-18"},
-            {"id": 2, "cliente": "Maria Lopez", "monto": 350, "fecha": "2026-08-19"},
-            {"id": 3, "cliente": "Carlos Ruiz", "monto": 40,  "fecha": "2026-08-20"},
-            {"id": 4, "cliente": "Ana Gomez",   "monto": 150, "fecha": "2026-08-20"},
-            {"id": 5, "cliente": "Luis Silva",  "monto": 200, "fecha": "2026-08-20"},
-        ]
+        # Si la API esta caida (Render dormido, etc), lista vacia para evitar error 500
+        pagos = []
 
     ingreso_total = sum(p.get("monto", 0) for p in pagos)
     pagos_hoy = len(pagos)
