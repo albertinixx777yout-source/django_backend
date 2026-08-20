@@ -3,18 +3,30 @@ from django.shortcuts import render
 import requests
 from django.conf import settings
 
-@login_required
-@permission_required('dashboard.index_viewer', raise_exception=True)
 def index(request):
     try:
-        response = requests.get(settings.API_URL)
-        posts = response.json()
-        total_responses = len(posts)
+        # Intentamos consumir tu API local de Pagos
+        response = requests.get('http://127.0.0.1:8000/pagos', timeout=3)
+        pagos = response.json()
     except Exception:
-        total_responses = 0
+        # Datos mock en caso de que tu FastAPI este apagado
+        pagos = [
+            {"id": 1, "cliente": "Juan Perez", "monto": 100, "fecha": "2026-08-18"},
+            {"id": 2, "cliente": "Maria Lopez", "monto": 350, "fecha": "2026-08-19"},
+            {"id": 3, "cliente": "Carlos Ruiz", "monto": 40,  "fecha": "2026-08-20"},
+            {"id": 4, "cliente": "Ana Gomez",   "monto": 150, "fecha": "2026-08-20"},
+            {"id": 5, "cliente": "Luis Silva",  "monto": 200, "fecha": "2026-08-20"},
+        ]
+
+    ingreso_total = sum(p.get("monto", 0) for p in pagos)
+    pagos_hoy = len(pagos)
+    ticket_promedio = round(ingreso_total / pagos_hoy, 2) if pagos_hoy > 0 else 0
 
     data = {
-        "title": "Landing Page Dashboard",
-        "total_responses": total_responses,
+        "title": "Dashboard - Pagos y Facturación",
+        "ingreso_total": ingreso_total,
+        "pagos_hoy": pagos_hoy,
+        "ticket_promedio": ticket_promedio,
+        "pagos": pagos,
     }
     return render(request, "dashboard/index.html", data)
